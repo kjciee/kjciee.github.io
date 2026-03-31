@@ -106,29 +106,39 @@ jobs:
             new=""
 
             case "$base" in
-              @page,*.html|@page,*.htm)
-                num="$(printf '%s' "$base" | sed -E 's/^@page,([0-9]+)\.html?$/\1/')"
-                new="$dir/page-$num.html"
+              @*,*.html|@*,*.htm)
+                slug="$(printf '%s' "$base" | sed -E 's/^@([^,]+),([0-9]+)\.html?$/\1-\2.html/')"
+                if [ "$slug" != "$base" ]; then
+                  new="$dir/$slug"
+                fi
                 ;;
 
-              index.html@page,*.html|index.htm@page,*.html|index.html@page,*.htm|index.htm@page,*.htm)
-                num="$(printf '%s' "$base" | sed -E 's/^index\.html?@page,([0-9]+)\.html?$/\1/')"
-                new="$dir/page-$num.html"
+              index.html@*,*.html|index.htm@*,*.html|index.html@*,*.htm|index.htm@*,*.htm)
+                slug="$(printf '%s' "$base" | sed -E 's/^index\.html?@([^,]+),([0-9]+)\.html?$/\1-\2.html/')"
+                if [ "$slug" != "$base" ]; then
+                  new="$dir/$slug"
+                fi
                 ;;
 
-              index.html@page,*|index.htm@page,*)
-                num="$(printf '%s' "$base" | sed -E 's/^index\.html?@page,([0-9]+)$/\1/')"
-                new="$dir/page-$num.html"
+              index.html@*,*|index.htm@*,*)
+                slug="$(printf '%s' "$base" | sed -E 's/^index\.html?@([^,]+),([0-9]+)$/\1-\2.html/')"
+                if [ "$slug" != "$base" ]; then
+                  new="$dir/$slug"
+                fi
                 ;;
 
-              index.html?page,*.html|index.htm?page,*.html|index.html?page,*.htm|index.htm?page,*.htm)
-                num="$(printf '%s' "$base" | sed -E 's/^index\.html?\?page,([0-9]+)\.html?$/\1/')"
-                new="$dir/page-$num.html"
+              index.html?*,*.html|index.htm?*,*.html|index.html?*,*.htm|index.htm?*,*.htm)
+                slug="$(printf '%s' "$base" | sed -E 's/^index\.html?\?([^,]+),([0-9]+)\.html?$/\1-\2.html/')"
+                if [ "$slug" != "$base" ]; then
+                  new="$dir/$slug"
+                fi
                 ;;
 
-              index.html?page,*|index.htm?page,*)
-                num="$(printf '%s' "$base" | sed -E 's/^index\.html?\?page,([0-9]+)$/\1/')"
-                new="$dir/page-$num.html"
+              index.html?*,*|index.htm?*,*)
+                slug="$(printf '%s' "$base" | sed -E 's/^index\.html?\?([^,]+),([0-9]+)$/\1-\2.html/')"
+                if [ "$slug" != "$base" ]; then
+                  new="$dir/$slug"
+                fi
                 ;;
             esac
 
@@ -145,11 +155,11 @@ jobs:
 
           find dist -type f \( -name "*.html" -o -name "*.htm" -o -name "*.css" -o -name "*.js" \) -print0 |
           while IFS= read -r -d '' file; do
-            perl -0pi -e 's|https?://kjciee\.org/([^"'\''<>\s]*)/\?page,([0-9]+)|/$1/page-$2.html|g' "$file"
-            perl -0pi -e 's|https?://kjciee\.org/\?page,([0-9]+)|/page-$1.html|g' "$file"
+            perl -0pi -e 's|https?://kjciee\.org/([^"'\''<>\s]*)/\?([^,/?#]+),([0-9]+)|/$1/$2-$3.html|g' "$file"
+            perl -0pi -e 's|https?://kjciee\.org/\?([^,/?#]+),([0-9]+)|/$1-$2.html|g' "$file"
 
-            perl -0pi -e 's|([\"\047])\?page,([0-9]+)([\"\047])|$1page-$2.html$3|g' "$file"
-            perl -0pi -e 's|([\"\047])index\.php\?page,([0-9]+)([\"\047])|$1page-$2.html$3|g' "$file"
+            perl -0pi -e 's|([\"\047])\?([^,/?#]+),([0-9]+)([\"\047])|$1$2-$3.html$4|g' "$file"
+            perl -0pi -e 's|([\"\047])index\.php\?([^,/?#]+),([0-9]+)([\"\047])|$1$2-$3.html$4|g' "$file"
 
             perl -0pi -e 's|https://kjciee\.org/|/|g' "$file"
             perl -0pi -e 's|http://kjciee\.org/|/|g' "$file"
