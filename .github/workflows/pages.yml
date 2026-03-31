@@ -32,6 +32,7 @@ jobs:
 
       - name: Copy source files
         run: |
+          rm -rf dist
           mkdir -p dist
           cp -R src/. dist/
 
@@ -40,23 +41,26 @@ jobs:
         run: |
           set -eu
 
-          find dist -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" \) -print0 |
+          find dist -type f \( -name "*.html" -o -name "*.htm" -o -name "*.css" -o -name "*.js" \) -print0 |
           while IFS= read -r -d '' file; do
             echo "----- $file -----"
             guess="$(nkf --guess "$file" 2>/dev/null || true)"
             echo "Detected: $guess"
 
             case "$guess" in
+              *BINARY*)
+                echo "Skip binary-like file: $file"
+                ;;
               *UTF-8*)
-                echo "Skip conversion (already UTF-8): $file"
+                echo "Normalize UTF-8: $file"
+                nkf -w --overwrite "$file"
                 ;;
               *Shift_JIS*|*CP932*|*Windows-31J*|*ASCII*|*EUC-JP*|*ISO-2022-JP*)
                 echo "Convert to UTF-8: $file"
                 nkf -w --overwrite "$file"
                 ;;
               *)
-                echo "Unknown encoding, try converting anyway: $file"
-                nkf -w --overwrite "$file" || true
+                echo "Unknown encoding, leave as-is: $file"
                 ;;
             esac
           done
@@ -66,7 +70,7 @@ jobs:
         run: |
           set -eu
 
-          find dist -type f -name "*.html" -print0 |
+          find dist -type f \( -name "*.html" -o -name "*.htm" \) -print0 |
           while IFS= read -r -d '' file; do
             sed -i 's/charset=Shift_JIS/charset=UTF-8/Ig' "$file"
             sed -i 's/charset=shift_jis/charset=UTF-8/Ig' "$file"
@@ -84,28 +88,45 @@ jobs:
             sed -i 's/<meta charset="windows-31j">/<meta charset="UTF-8">/Ig' "$file"
             sed -i 's/<meta charset="CP932">/<meta charset="UTF-8">/Ig' "$file"
             sed -i 's/<meta charset="cp932">/<meta charset="UTF-8">/Ig' "$file"
-            sed -i 's/<meta charset="EUC-JP">/<meta charset="UTF-8">/Ig' "$file"
-            sed -i 's/<meta charset="euc-jp">/<meta charset="UTF-8">/Ig' "$file"
-            sed -i 's/<meta charset="ISO-2022-JP">/<meta charset="UTF-8">/Ig' "$file"
-            sed -i 's/<meta charset="iso-2022-jp">/<meta charset="UTF-8">/Ig' "$file"
           done
 
-      - name: Rewrite old absolute URLs to root-relative paths
+      - name: Rename query-style filenames to static names
         shell: bash
         run: |
           set -eu
 
-          find dist -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" \) -print0 |
+          find dist -type f -print0 |
           while IFS= read -r -d '' file; do
-            # まずドメイン付きURLをルート相対へ
-            sed -i 's|https://kjciee\.org/|/|g' "$file"
-            sed -i 's|http://kjciee\.org/|/|g' "$file"
+            dir="$(dirname "$file")"
+            base="$(basename "$file")"
 
-            # 万一サブディレクトリ無しの裸ドメイン参照があれば / に
-            sed -i 's|https://kjciee\.org"\([^"]*\)|/"\1|g' "$file"
-            sed -i "s|https://kjciee\.org'\([^']*\)|/'\1|g" "$file"
-            sed -i 's|http://kjciee\.org"\([^"]*\)|/"\1|g' "$file"
-            sed -i "s|http://kjciee\.org'\([^']*\)|/'\1|g" "$file"
+            case "$base" in
+              @page,*.html|@page,*.htm)
+                num="$(printf '%s' "$base" | sed -E 's/^@page,([0-9]+)\.html?$/\1/')"
+                mv "$file" "$dir/page-$num.html"
+                ;;
+              index.html@page,*|index.htm@page,*)
+                num="$(printf '%s' "$base" | sed -E 's/^index\.html?@page,([0-9]+)$/\1/')"
+                mv "$file" "$dir/page-$num.html"
+                ;;
+            esac
+          done
+
+      - name: Rewrite legacy links to static relative paths
+        shell: bash
+        run: |
+          set -eu
+
+          find dist -type f \( -name "*.html" -o -name "*.htm" -o -name "*.css" -o -name "*.js" \) -print0 |
+          while IFS= read -r -d '' file; do
+            perl -0pi -e 's|https?://kjciee\.org/([^"'\''<>\s]*)/\?page,([0-9]+)|/$1/page-$2.html|g' "$file"
+            perl -0pi -e 's|https?://kjciee\.org/\?page,([0-9]+)|/page-$1.html|g' "$file"
+
+            perl -0pi -e 's|([\"\047])\?page,([0-9]+)([\"\047])|$1page-$2.html$3|g' "$file"
+            perl -0pi -e 's|([\"\047])index\.php\?page,([0-9]+)([\"\047])|$1page-$2.html$3|g' "$file"
+
+            perl -0pi -e 's|https://kjciee\.org/|/|g' "$file"
+            perl -0pi -e 's|http://kjciee\.org/|/|g' "$file"
           done
 
       - name: Disable Jekyll
