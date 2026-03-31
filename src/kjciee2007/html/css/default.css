@@ -1,0 +1,133 @@
+@charset "shift_jis";
+/*-----------------------------------------------------------------------------------------------
+	[ THE SOCIETY OF HEATING, AIR-CONDITIONING AND SANITARY ENGINEERS OF JAPAN css ] [ default.css ]
+	-----------------------------------------------------------------------------------------------
+	author: Lampros co.,ltd.
+	url:http://www.lampros.co.jp/
+	making day: 2007-08-06
+	---------------------------------------------------------------------------------------------*/
+
+
+/* ================================================
+
+	inital seting
+
+=================================================*/
+
+
+/* tag initialization
+---------------------------------------------------------------------------------------------*/
+h1,h2,h3,h4,h5,h6,div,span,p,a,form,ul,ol,li,dl,dt,dd,table,th,td { margin:0px; padding:0px; }
+img { border:none; }
+
+
+
+
+
+/* ================================================
+
+	共通設定
+
+=================================================*/
+
+/* ボディー設定
+---------------------------------------------------------------------------------------------*/
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+body.header {
+	background: url(../img/img02.jpg) repeat-x;
+}
+body.menu {
+	background: url(../img/img04.jpg) repeat-y;
+}
+body.contents {}
+
+
+
+/* 書体設定
+---------------------------------------------------------------------------------------------*/
+* {
+	font: 12px "ヒラギノ角ゴ Pro W3", "ＭＳ Ｐゴシック", "Hiragino Kaku Gothic Pro W3", Osaka;
+	color: #000000;
+	}
+	
+/* リンク設定
+	 --------------------------------------------------------------------------------------------*/
+a:link,a:visited {
+	color: #022B64;
+}
+a:hover,a:active {
+	color: #FF6600;
+}
+
+/* こーピーライト設定
+	 --------------------------------------------------------------------------------------------*/
+p.copyright {
+	text-align: center;
+	font-size: 10px;
+	color: #666666;
+	margin-top: 4px;
+}
+
+/* メニュー設定
+---------------------------------------------------------------------------------------------*/
+body.menu ul {
+	list-style: none;
+}
+body.menu ul li {
+	list-style: none;
+	background: #FFFFFF;
+	border-top: 1px solid #022B64;
+	border-right: 1px solid #022B64;
+	border-bottom: 1px solid #022B64;
+	border-left: 5px solid #022B64;
+	margin-right: 10px;
+	margin-left: 7px;
+	margin-bottom: 5px;
+	padding: 0px;
+}
+*html body.menu ul li {
+}
+body.menu ul li a {
+	font-weight: normal;
+	font-size: 12px;
+	text-decoration: none;
+	color: #022B64;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	display: block;
+	padding-left: 4px;
+}
+
+
+
+
+/* ================================================
+
+	ページ設定
+
+=================================================*/
+
+
+/* トップページ
+---------------------------------------------------------------------------------------------*/
+div#mainContents {
+	width: 560px;
+}
+div#mainContents div.Box {
+	margin-bottom: 20px;
+}
+div#mainContents table.pdfTable {
+	border: 1px solid #CCCCCC;
+	background: #DFDFDF;
+}
+div#copyright {
+	background: #006699;
+	font-size: 10px;
+	color: #FFFFFF;
+	text-align: center;
+	padding: 3px;
+}

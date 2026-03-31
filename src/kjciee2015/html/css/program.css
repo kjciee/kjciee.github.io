@@ -1,0 +1,218 @@
+@charset "utf-8";
+@import "default.css";
+
+/*----------------------------------
+	program 
+----------------------------------*/
+body
+{
+	text-align: center;
+}
+
+/* 冒頭の注釈 */
+ul#note
+{
+	width:94%;
+	text-align:left;
+	margin:1em auto;
+	border-bottom:1px solid #666;
+}
+ul#note li
+{
+	white-space:nowrap;
+}
+
+/* program 構造 */
+div.section
+{
+	width:94%;
+	margin:20px auto;
+}
+
+div.caption
+{
+	background: #437AA3;
+	padding:5px 0 5px 0;
+	border-bottom:2px solid #fff;
+	text-align: center;
+	font-size:150%;
+	font-weight:bold;
+	color:#fff;
+	white-space:nowrap;
+}
+
+div.caption > hr
+{
+	border:1px solid #fff;
+	margin:5px 0 5px 0;
+	padding:0;
+	width:100%;
+}
+
+/* program contents */
+div.contents
+{
+	margin:auto 5px auto 5px;
+	text-align:left;
+}
+
+/* prograam info */
+body#program dl > *
+{
+	line-height:130%;
+}
+
+div.info
+{
+	margin:0;
+	text-align:left !important;
+	width:600px;
+}
+*:first-child+html > div.info { width:100%; } /* IE7 */
+/* 会場、時間情報 */
+dl > dt,
+dl > dd
+{
+	margin: 3px 0 3px 0;
+}
+dl > dt.first,
+dl > dd.first
+{
+	margin:0;
+}
+
+div.info dt
+{
+	float:left;
+	/*width:100px;*/
+	clear:both;
+}
+
+div.info dd
+{
+	float:left;
+	display:block;
+	background-repeat:no-repeat;
+}
+div.info > dl > dd > dl > dt
+{
+	width:120px;
+}
+
+*:first-child+html div.info dd
+{
+	width:40% !important;
+} /* IE7 */
+*:first-child+html div.programs dd
+{
+	width:60% !important;
+	
+}/* IE7 */
+
+dd > dl
+{
+	display:inline-block;
+}
+
+/* プログラム詳細 */
+div.programs
+{
+	text-align:left;
+	margin:5px 1em 0 1em;
+	padding:0.5em;
+}
+
+div.programs dt
+{
+	float:left;
+	clear:both;
+	padding-left:0.5em;
+	text-align:left;
+}
+
+div.programs dd
+{
+	
+	/*width:300px;*/
+	float:left;
+	display: inline-block;
+	background-image:url('colon.png');
+	background-repeat:no-repeat;
+	padding-left:1.5em;
+	/*border-bottom:1px solid #666;*/
+}
+*:first-child+html div.programList > div.programs dd { width:60%; } /* IE7 */
+
+/* プログラム情報 */
+div.programs table
+{
+	width:100%;
+}
+
+body#program table caption
+{
+	background: #437AA3;
+	padding:5px 0 5px 0;
+	border-bottom:2px solid #fff;
+	text-align: center;
+	font-size:150%;
+	font-weight:bold;
+	color:#fff;
+	white-space:nowrap;
+}
+
+
+body#program table th,
+body#program table td
+{
+	padding:0.2em;
+	border-bottom:1px solid #666;
+}
+
+body#program table th.lecNum,
+body#program table td.lecNum
+{
+	width:70px;
+	text-align:center;
+	white-space:nowrap;
+}
+
+body#program table td.lemma
+{
+	width:45%;
+}
+
+body#program table td.ahtor
+{
+	width:45%;
+}
+
+div.lectures
+{
+	border-top:dotted 1px #bbb;
+	margin-top: 15px;
+	padding-top:5px;
+}
+
+dl.sector
+{
+	/*border-top: dotted 1px #bbb;*/
+	border-top: solid 2px #000;
+	margin-top:10px;
+	padding-top:5px;
+}
+
+dl.sector dt { width:55px; text-align: right;}
+dl.place dt { width:55px; text-align: right; }
+dl.basicInfo dt { width:55px; text-align: right;}
+
+span.anchor
+{
+	height: 1px;
+	line-height: 1px;
+}
+dl.place
+{
+	height: 1em;
+	width:100%;
+}

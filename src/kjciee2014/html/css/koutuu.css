@@ -1,0 +1,32 @@
+﻿@charset "utf-8";
+@import "default.css";
+
+dt
+{
+	margin:1em auto 1em 5px;
+}
+dd
+{
+	margin-left:45px;
+}
+
+ul.mapList li
+{
+	margin-top:0.5em;
+}
+
+dt.transportation
+{
+	margin-bottom:0;
+}
+
+.accessInfo dt
+{
+	font-weight:normal;
+	margin:0 auto;
+}
+
+.accessInfo dd
+{
+	margin-bottom:1em;
+}

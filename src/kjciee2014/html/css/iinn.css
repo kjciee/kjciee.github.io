@@ -1,0 +1,22 @@
+﻿@charset "utf-8";
+@import "default.css";
+
+table
+{
+	width:70%;
+}
+th
+{
+	font-weight:bold;
+	width:33%;
+	text-align:left;
+}
+th .omitTitle
+{
+	font-weight:normal;
+}
+td
+{
+	vertical-align:top;
+	width:33%;
+}
