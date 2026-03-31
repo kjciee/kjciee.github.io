@@ -90,6 +90,24 @@ jobs:
             sed -i 's/<meta charset="iso-2022-jp">/<meta charset="UTF-8">/Ig' "$file"
           done
 
+      - name: Rewrite old absolute URLs to root-relative paths
+        shell: bash
+        run: |
+          set -eu
+
+          find dist -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" \) -print0 |
+          while IFS= read -r -d '' file; do
+            # まずドメイン付きURLをルート相対へ
+            sed -i 's|https://kjciee\.org/|/|g' "$file"
+            sed -i 's|http://kjciee\.org/|/|g' "$file"
+
+            # 万一サブディレクトリ無しの裸ドメイン参照があれば / に
+            sed -i 's|https://kjciee\.org"\([^"]*\)|/"\1|g' "$file"
+            sed -i "s|https://kjciee\.org'\([^']*\)|/'\1|g" "$file"
+            sed -i 's|http://kjciee\.org"\([^"]*\)|/"\1|g' "$file"
+            sed -i "s|http://kjciee\.org'\([^']*\)|/'\1|g" "$file"
+          done
+
       - name: Disable Jekyll
         run: touch dist/.nojekyll
 
