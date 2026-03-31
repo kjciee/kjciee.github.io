@@ -88,6 +88,10 @@ jobs:
             sed -i 's/<meta charset="windows-31j">/<meta charset="UTF-8">/Ig' "$file"
             sed -i 's/<meta charset="CP932">/<meta charset="UTF-8">/Ig' "$file"
             sed -i 's/<meta charset="cp932">/<meta charset="UTF-8">/Ig' "$file"
+            sed -i 's/<meta charset="EUC-JP">/<meta charset="UTF-8">/Ig' "$file"
+            sed -i 's/<meta charset="euc-jp">/<meta charset="UTF-8">/Ig' "$file"
+            sed -i 's/<meta charset="ISO-2022-JP">/<meta charset="UTF-8">/Ig' "$file"
+            sed -i 's/<meta charset="iso-2022-jp">/<meta charset="UTF-8">/Ig' "$file"
           done
 
       - name: Rename query-style filenames to static names
@@ -99,17 +103,39 @@ jobs:
           while IFS= read -r -d '' file; do
             dir="$(dirname "$file")"
             base="$(basename "$file")"
+            new=""
 
             case "$base" in
               @page,*.html|@page,*.htm)
                 num="$(printf '%s' "$base" | sed -E 's/^@page,([0-9]+)\.html?$/\1/')"
-                mv "$file" "$dir/page-$num.html"
+                new="$dir/page-$num.html"
                 ;;
+
+              index.html@page,*.html|index.htm@page,*.html|index.html@page,*.htm|index.htm@page,*.htm)
+                num="$(printf '%s' "$base" | sed -E 's/^index\.html?@page,([0-9]+)\.html?$/\1/')"
+                new="$dir/page-$num.html"
+                ;;
+
               index.html@page,*|index.htm@page,*)
                 num="$(printf '%s' "$base" | sed -E 's/^index\.html?@page,([0-9]+)$/\1/')"
-                mv "$file" "$dir/page-$num.html"
+                new="$dir/page-$num.html"
+                ;;
+
+              index.html?page,*.html|index.htm?page,*.html|index.html?page,*.htm|index.htm?page,*.htm)
+                num="$(printf '%s' "$base" | sed -E 's/^index\.html?\?page,([0-9]+)\.html?$/\1/')"
+                new="$dir/page-$num.html"
+                ;;
+
+              index.html?page,*|index.htm?page,*)
+                num="$(printf '%s' "$base" | sed -E 's/^index\.html?\?page,([0-9]+)$/\1/')"
+                new="$dir/page-$num.html"
                 ;;
             esac
+
+            if [ -n "$new" ] && [ "$file" != "$new" ]; then
+              echo "Rename: $file -> $new"
+              mv "$file" "$new"
+            fi
           done
 
       - name: Rewrite legacy links to static relative paths
