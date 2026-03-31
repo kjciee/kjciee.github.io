@@ -1,0 +1,97 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="astor" />
+          <option value="async-timeout" />
+          <option value="auto_gptq" />
+          <option value="autoflake" />
+          <option value="av" />
+          <option value="bitsandbytes" />
+          <option value="black" />
+          <option value="bpy" />
+          <option value="colorama" />
+          <option value="conda-pack" />
+          <option value="crcmod" />
+          <option value="cuda-python" />
+          <option value="dataclasses" />
+          <option value="decord" />
+          <option value="deprecation" />
+          <option value="easydict" />
+          <option value="einops-exts" />
+          <option value="exceptiongroup" />
+          <option value="fastavro" />
+          <option value="fasteners" />
+          <option value="flake8" />
+          <option value="Flask" />
+          <option value="fqdn" />
+          <option value="ftfy" />
+          <option value="fvcore" />
+          <option value="gdown" />
+          <option value="h5py" />
+          <option value="hdfs" />
+          <option value="httplib2" />
+          <option value="hydra-core" />
+          <option value="hydra-submitit-launcher" />
+          <option value="igraph" />
+          <option value="imath" />
+          <option value="isoduration" />
+          <option value="jsonlines" />
+          <option value="jsonpickle" />
+          <option value="jsonpointer" />
+          <option value="jupyter" />
+          <option value="librosa" />
+          <option value="lightning" />
+          <option value="loguru" />
+          <option value="mosaicml-streaming" />
+          <option value="nvidia-cuda-nvcc-cu12" />
+          <option value="nvidia-pyindex" />
+          <option value="objsize" />
+          <option value="open3d" />
+          <option value="opencv-python" />
+          <option value="OpenEXR" />
+          <option value="optimum" />
+          <option value="optree" />
+          <option value="orjson" />
+          <option value="panda3d-gltf" />
+          <option value="pdoc3" />
+          <option value="peft" />
+          <option value="pip-system-certs" />
+          <option value="point-cloud-utils" />
+          <option value="polyscope" />
+          <option value="pycocotools" />
+          <option value="pydot" />
+          <option value="pymeshfix" />
+          <option value="pymongo" />
+          <option value="pyrender" />
+          <option value="PySocks" />
+          <option value="pytest" />
+          <option value="python-pycg" />
+          <option value="randomname" />
+          <option value="roma" />
+          <option value="rootutils" />
+          <option value="Rtree" />
+          <option value="sagemaker" />
+          <option value="scikit-image" />
+          <option value="sentence-transformers" />
+          <option value="simplejson" />
+          <option value="smplx" />
+          <option value="spconv-cu121" />
+          <option value="tensorboard" />
+          <option value="timm" />
+          <option value="tomli" />
+          <option value="uri-template" />
+          <option value="usort" />
+          <option value="wandb" />
+          <option value="webcolors" />
+          <option value="webdataset" />
+          <option value="Werkzeug" />
+          <option value="xatlas" />
+          <option value="xformers" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
