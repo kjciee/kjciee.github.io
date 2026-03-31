@@ -1,0 +1,20 @@
+@charset "utf-8";
+@import "default.css";
+
+dt
+{
+	margin-top:1em;
+}
+dt.expandMargin
+{
+	margin-top:2em;
+}
+dd
+{
+	padding-left:60px;
+}
+
+dd.about p
+{
+	text-indent:1em;
+}

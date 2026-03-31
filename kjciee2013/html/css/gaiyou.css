@@ -1,0 +1,99 @@
+﻿@charset "utf-8";
+@import "default.css";
+
+body
+{
+	text-align:center;
+	margin:1em auto;
+	padding-bottom:10em;
+}
+
+dt
+{
+	margin:2em auto 1em 5px;
+}
+dd
+{
+	margin-left:90px;
+}
+#contents > dl  > dt
+{
+	padding:1em 0 0 0 ;
+}
+#contents > dl > dd
+{
+	min-width:500px;
+}
+
+.placeInfo dt
+{
+	font-weight:normal;
+	/*display:inline-block;*/
+	float:left;
+	clear:both;
+	width:90px;
+	margin:auto;
+	vertical-align:top;
+
+	background-image:url('colon.png');
+	background-repeat:no-repeat;
+	background-position:right 3px;
+}
+.placeInfo dd
+{
+	
+	/*display:inline-block;*/
+	float:left;
+	margin-left:0;
+	padding-left:5px;
+}
+.contactInfo dt
+{
+	width:90px;
+}
+
+
+/*--------------------------------------------------
+	特別講演
+--------------------------------------------------*/
+.specialLectureInfo dt
+{
+	float:none;
+	display:block;
+	margin:0;
+	padding:0;
+	width:400px;
+	background:none;
+}
+.specialLectureInfo dd
+{
+	background:none;
+	margin-left:60px;
+}
+span.omitTitle
+{
+	margin-left:75px;
+}
+
+dt.panelist
+{
+	float:none;
+	display:block;
+	margin:1em 0 0 0;
+	padding:14px 0 0 0;
+	width:180px;
+	background-image:url('colon.png');
+	background-repeat:no-repeat;
+	background-position:right 18px;
+
+}
+dd.panelist
+{
+	float:none;
+	background:none;
+}
+dd.panelist ul
+{
+	margin-left:90px;
+}
+

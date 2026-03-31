@@ -1,0 +1,15 @@
+
+body {
+	padding: 0px;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 15px;
+}
+
+body,td,th {
+	font-family: "‚l‚r ‚oƒSƒVƒbƒN", "ƒqƒ‰ƒMƒmŠpƒS Pro W3", Osaka;
+	font-size: 14px;
+	color: #333333;
+	line-height: 130%;
+}
