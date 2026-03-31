@@ -1,4 +1,4 @@
-name: Build and deploy Pages from Shift_JIS
+name: Build and deploy Pages from legacy encoding
 
 on:
   push:
@@ -25,32 +25,73 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Convert Shift_JIS files to UTF-8
-        shell: bash
+      - name: Install nkf
         run: |
-          set -e
+          sudo apt-get update
+          sudo apt-get install -y nkf
 
+      - name: Copy source files
+        run: |
           mkdir -p dist
-
-          # src 以下を丸ごと dist にコピー
           cp -R src/. dist/
 
-          # HTML/CSS/JS を Shift_JIS -> UTF-8 に変換
-          find dist -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" \) | while read -r file; do
-            iconv -f SHIFT_JIS -t UTF-8 "$file" > "${file}.utf8"
-            mv "${file}.utf8" "$file"
+      - name: Detect and convert text files to UTF-8
+        shell: bash
+        run: |
+          set -eu
+
+          find dist -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" \) -print0 |
+          while IFS= read -r -d '' file; do
+            echo "----- $file -----"
+            guess="$(nkf --guess "$file" 2>/dev/null || true)"
+            echo "Detected: $guess"
+
+            case "$guess" in
+              *UTF-8*)
+                echo "Skip conversion (already UTF-8): $file"
+                ;;
+              *Shift_JIS*|*CP932*|*Windows-31J*|*ASCII*|*EUC-JP*|*ISO-2022-JP*)
+                echo "Convert to UTF-8: $file"
+                nkf -w --overwrite "$file"
+                ;;
+              *)
+                echo "Unknown encoding, try converting anyway: $file"
+                nkf -w --overwrite "$file" || true
+                ;;
+            esac
           done
 
-          # meta charset を UTF-8 に寄せる
-          find dist -type f -name "*.html" | while read -r file; do
+      - name: Normalize charset declarations in HTML
+        shell: bash
+        run: |
+          set -eu
+
+          find dist -type f -name "*.html" -print0 |
+          while IFS= read -r -d '' file; do
             sed -i 's/charset=Shift_JIS/charset=UTF-8/Ig' "$file"
             sed -i 's/charset=shift_jis/charset=UTF-8/Ig' "$file"
+            sed -i 's/charset=Windows-31J/charset=UTF-8/Ig' "$file"
+            sed -i 's/charset=windows-31j/charset=UTF-8/Ig' "$file"
+            sed -i 's/charset=CP932/charset=UTF-8/Ig' "$file"
+            sed -i 's/charset=cp932/charset=UTF-8/Ig' "$file"
+            sed -i 's/charset=EUC-JP/charset=UTF-8/Ig' "$file"
+            sed -i 's/charset=euc-jp/charset=UTF-8/Ig' "$file"
+            sed -i 's/charset=ISO-2022-JP/charset=UTF-8/Ig' "$file"
+            sed -i 's/charset=iso-2022-jp/charset=UTF-8/Ig' "$file"
             sed -i 's/<meta charset="Shift_JIS">/<meta charset="UTF-8">/Ig' "$file"
             sed -i 's/<meta charset="shift_jis">/<meta charset="UTF-8">/Ig' "$file"
+            sed -i 's/<meta charset="Windows-31J">/<meta charset="UTF-8">/Ig' "$file"
+            sed -i 's/<meta charset="windows-31j">/<meta charset="UTF-8">/Ig' "$file"
+            sed -i 's/<meta charset="CP932">/<meta charset="UTF-8">/Ig' "$file"
+            sed -i 's/<meta charset="cp932">/<meta charset="UTF-8">/Ig' "$file"
+            sed -i 's/<meta charset="EUC-JP">/<meta charset="UTF-8">/Ig' "$file"
+            sed -i 's/<meta charset="euc-jp">/<meta charset="UTF-8">/Ig' "$file"
+            sed -i 's/<meta charset="ISO-2022-JP">/<meta charset="UTF-8">/Ig' "$file"
+            sed -i 's/<meta charset="iso-2022-jp">/<meta charset="UTF-8">/Ig' "$file"
           done
 
-          # Jekyll を通したくない場合
-          touch dist/.nojekyll
+      - name: Disable Jekyll
+        run: touch dist/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
